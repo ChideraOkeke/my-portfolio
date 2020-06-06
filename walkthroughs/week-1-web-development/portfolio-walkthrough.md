@@ -164,7 +164,7 @@ several files and directories:
 -   <walkthrough-editor-open-file
         filePath="software-product-sprint/walkthroughs/week-1-web-development/examples/stanley/pom.xml">
       pom.xml
-    </walkthrough-editor-open-file>cd
+    </walkthrough-editor-open-file>
     is Maven's configuration file.
 -   <walkthrough-editor-open-file
         filePath="software-product-sprint/walkthroughs/week-1-web-development/examples/stanley/">
