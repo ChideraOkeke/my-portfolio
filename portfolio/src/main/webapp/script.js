@@ -38,10 +38,7 @@ function update(){
 }
 
 function next(){
-	currentImage = currentImage + 1;
-	if (currentImage == filenames.length) {
-  		currentImage = 0;
-	}
+	currentImage = (currentImage + 1) % filenames.length
 	update();
 }
 
