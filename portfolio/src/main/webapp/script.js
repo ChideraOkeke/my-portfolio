@@ -33,7 +33,6 @@ var currentImage = 0;
 function update(){
 	var filename = filenames[currentImage];
 	document.getElementById("myImage").src = filename;
-	document.getElementsByClassName("dot").innerHTML = names[currentImage]; 
 	
 }
 
@@ -52,3 +51,69 @@ function prev(){
 
 var myVar = setInterval(next, 4000);
 
+
+
+/**
+ // Fetches a message from the server and adds it to the DOM.
+ 
+function getMessage() {
+  console.log('Fetching a message.');
+
+  // The fetch() function returns a Promise because the request is asynchronous.
+  const responsePromise = fetch('/data');
+
+  // When the request is complete, pass the response into handleResponse().
+  responsePromise.then(handleResponse);
+}
+
+/**
+// Handles response by converting it to text and passing the result to
+ // addQuoteToDom().
+
+function handleResponse(response) {
+  console.log('Handling the response.');
+
+  // response.text() returns a Promise, because the response is a stream of
+  // content and not a simple variable.
+  const textPromise = response.text();
+
+  // When the response is converted to text, pass the result into the
+  // addQuoteToDom() function.
+  textPromise.then(addMessageToDom);
+}
+
+// Adds a message to the DOM. 
+function addMessageToDom(message) {
+  console.log('Adding message to dom: ' + message);
+
+  const messageContainer = document.getElementById('the-message');
+  messageContainer.innerText = message;
+}
+
+*/
+
+/**
+ * The above code is organized to show each individual step, but we can use an
+ * ES6 feature called arrow functions to shorten the code. This function
+ * combines all of the above code into a single Promise chain. You can use
+ * whichever syntax makes the most sense to you.
+ */
+
+function getMessageUsingArrowFunctions() {
+  fetch('/data').then(response => response.text()).then((message) => {
+    document.getElementById('the-message').innerText = message;
+  });
+}
+
+/**
+ * Another way to use fetch is by using the async and await keywords. This
+ * allows you to use the return values directly instead of going through
+ * Promises.
+ 
+async function getMessageUsingAsyncAwait() {
+  const response = await fetch('/data');
+  const message = await response.text();
+  document.getElementById('the-message').innerText = message;
+}
+
+*/
