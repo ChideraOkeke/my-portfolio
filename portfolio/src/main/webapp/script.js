@@ -33,7 +33,6 @@ var currentImage = 0;
 function update(){
 	var filename = filenames[currentImage];
 	document.getElementById("myImage").src = filename;
-	document.getElementsByClassName("dot").innerHTML = names[currentImage]; 
 	
 }
 
@@ -55,8 +54,8 @@ var myVar = setInterval(next, 4000);
 
 
 /**
- * Fetches a message from the server and adds it to the DOM.
- */
+ // Fetches a message from the server and adds it to the DOM.
+ 
 function getMessage() {
   console.log('Fetching a message.');
 
@@ -68,9 +67,9 @@ function getMessage() {
 }
 
 /**
- * Handles response by converting it to text and passing the result to
- * addQuoteToDom().
- */
+// Handles response by converting it to text and passing the result to
+ // addQuoteToDom().
+
 function handleResponse(response) {
   console.log('Handling the response.');
 
@@ -83,13 +82,15 @@ function handleResponse(response) {
   textPromise.then(addMessageToDom);
 }
 
-/** Adds a message to the DOM. */
+// Adds a message to the DOM. 
 function addMessageToDom(message) {
   console.log('Adding message to dom: ' + message);
 
   const messageContainer = document.getElementById('the-message');
-  messageContainer.innerText = quote;
+  messageContainer.innerText = message;
 }
+
+*/
 
 /**
  * The above code is organized to show each individual step, but we can use an
@@ -97,6 +98,7 @@ function addMessageToDom(message) {
  * combines all of the above code into a single Promise chain. You can use
  * whichever syntax makes the most sense to you.
  */
+
 function getMessageUsingArrowFunctions() {
   fetch('/data').then(response => response.text()).then((message) => {
     document.getElementById('the-message').innerText = message;
@@ -107,9 +109,11 @@ function getMessageUsingArrowFunctions() {
  * Another way to use fetch is by using the async and await keywords. This
  * allows you to use the return values directly instead of going through
  * Promises.
- */
+ 
 async function getMessageUsingAsyncAwait() {
   const response = await fetch('/data');
-  const quote = await response.text();
+  const message = await response.text();
   document.getElementById('the-message').innerText = message;
 }
+
+*/
