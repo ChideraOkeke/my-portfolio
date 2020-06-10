@@ -16,6 +16,7 @@ package com.google.sps.servlets;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
+import java.util.ArrayList;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +27,30 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+<<<<<<< JSONSyntax
+    ArrayList<String> comments = new ArrayList<String>();
+    comments.add("Chidera");
+    comments.add("Mary");
+    comments.add("Okeke");
+
+    // Convert the Arraylist to JSON
+    String json = convertToJson(comments);
+
     response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello world!</h1>");
+    response.getWriter().println(json);
+  }
+
+  private String convertToJson(ArrayList<String> comments) {
+    String json = "{";
+    json += "\"firstName\": ";
+    json += "\"" + comments.get(0) + "\"";
+    json += ", ";
+    json += "\"middleName\": ";
+    json += "\"" + comments.get(1) + "\"";
+    json += ", ";
+    json += "\"lastName\": ";
+    json += "\"" + comments.get(2) + "\"";
+    json += "}";
+    return json;
   }
 }

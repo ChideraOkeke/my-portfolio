@@ -12,17 +12,67 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+/* for my gallery */
 
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+var filenames = ["/Images/myimage1.JPG", 
+				"Images/myimage2.JPG",
+				"/Images/IMG2.JPG",
+				"/Images/IMG3.JPG",
+				"/Images/IMG4.jpeg",
+                "/Images/IMG5.jpg",
+                "/Images/IMG6.JPG",
+                "/Images/IMG7.jpeg",
+                "/Images/IMG8.jpeg"];
+
+var currentImage = 0;	
+
+
+
+function update(){
+	var filename = filenames[currentImage];
+	document.getElementById("myImage").src = filename;
+	
 }
+
+function next(){
+	currentImage = (currentImage + 1) % filenames.length
+	update();
+}
+
+function prev(){
+	if (currentImage > 0) {
+  		currentImage = currentImage - 1;
+	}	
+	update();
+}
+
+var myVar = setInterval(next, 4000);
+
+
+function getComments() {
+  fetch('/data').then(response => response.json()).then((comment) => {
+    const commentsListElement = document.getElementById('comments-container');
+    commentsListElement.innerHTML = '';
+    commentsListElement.appendChild(
+        createListElement('First name: ' + comment.firstName));
+    commentsListElement.appendChild(
+        createListElement('Middle name: ' + comment.middleName));
+    commentsListElement.appendChild(
+        createListElement('Last name: ' + comment.lastName));
+
+  });
+  
+}
+
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
+
+
+
+
