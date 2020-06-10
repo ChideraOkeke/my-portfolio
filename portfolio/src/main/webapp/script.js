@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
 /* for my gallery */
 
 var filenames = ["/Images/myimage1.JPG", 
@@ -31,7 +32,6 @@ var currentImage = 0;
 function update(){
 	var filename = filenames[currentImage];
 	document.getElementById("myImage").src = filename;
-	
 }
 
 function next(){
@@ -71,5 +71,6 @@ function createListElement(text) {
   liElement.innerText = text;
   return liElement;
 }
+
 
 
