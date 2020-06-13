@@ -14,9 +14,11 @@
 
 package com.google.sps.servlets;
 
+import com.google.sps.data.CommentData;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import java.util.ArrayList;
+import com.google.gson.Gson;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,33 +26,35 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+    private CommentData commentlog = new CommentData();
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-<<<<<<< JSONSyntax
-    ArrayList<String> comments = new ArrayList<String>();
-    comments.add("Chidera");
-    comments.add("Mary");
-    comments.add("Okeke");
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {  
+      // Convert the comments to JSON
+      String json = convertToJsonUsingGson(commentlog);
 
-    // Convert the Arraylist to JSON
-    String json = convertToJson(comments);
+      // Send the JSON as the response
+      response.setContentType("text/html");
+      response.getWriter().println(json);
+  }
+  
 
-    response.setContentType("text/html;");
-    response.getWriter().println(json);
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String userComment = request.getParameter("comment");
+        String userName = request.getParameter("comment_author");
+ 
+
+        commentlog.logComment(userName, userComment);
+
+        // Redirect back to the HTML page.
+        response.sendRedirect("/index.html");
   }
 
-  private String convertToJson(ArrayList<String> comments) {
-    String json = "{";
-    json += "\"firstName\": ";
-    json += "\"" + comments.get(0) + "\"";
-    json += ", ";
-    json += "\"middleName\": ";
-    json += "\"" + comments.get(1) + "\"";
-    json += ", ";
-    json += "\"lastName\": ";
-    json += "\"" + comments.get(2) + "\"";
-    json += "}";
+
+
+   private String convertToJsonUsingGson(CommentData commentlog) {
+       Gson gson = new Gson();
+       String json = gson.toJson(commentlog);
     return json;
   }
 }

@@ -27,8 +27,6 @@ var filenames = ["/Images/myimage1.JPG",
 
 var currentImage = 0;	
 
-
-
 function update(){
 	var filename = filenames[currentImage];
 	document.getElementById("myImage").src = filename;
@@ -47,24 +45,21 @@ function prev(){
 	update();
 }
 
-var myVar = setInterval(next, 4000);
+var slideshowTimer = setInterval(next, 4000);
+
 
 
 function getComments() {
-  fetch('/data').then(response => response.json()).then((comment) => {
+  fetch('/data').then(response => response.json()).then((json) => {
+    
     const commentsListElement = document.getElementById('comments-container');
-    commentsListElement.innerHTML = '';
-    commentsListElement.appendChild(
-        createListElement('First name: ' + comment.firstName));
-    commentsListElement.appendChild(
-        createListElement('Middle name: ' + comment.middleName));
-    commentsListElement.appendChild(
-        createListElement('Last name: ' + comment.lastName));
-
+    json.comments.forEach((line) => {
+      commentsListElement.appendChild(createListElement(line));
+    });
   });
+
   
 }
-
 
 /** Creates an <li> element containing text. */
 function createListElement(text) {
