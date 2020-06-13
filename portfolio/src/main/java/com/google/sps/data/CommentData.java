@@ -20,12 +20,25 @@ import java.util.Date;
 
 // Class containing comment data
 public class CommentData {
- 
+
+    private final long id;
+    private final long timestamp;
+    private final String userName;
+    private final String userComment;
+
+    public CommentData(long id, long timestamp, String userName, String userComment) {
+        this.id = id;
+        this.timestamp = timestamp;
+        this.userName = userName;
+        this.userComment = userComment;
+    }
   // List of comments
+  /**
   private final ArrayList<String> comments = new ArrayList<String>();
  
    public void logComment(String userName, String userComment) {
         comments.add(userName + ": " + userComment);
   }
+  */
 
 }

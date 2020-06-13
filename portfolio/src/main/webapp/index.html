@@ -41,12 +41,12 @@
         <h5>Leave a Comment</h5>
         <!-- This is the form for entering a new comment -->
         
-        <form action="/data" method="post" id="commentform">
-            <label for="comment_author" class="required">Your name</label>
-            <input type="text" name="comment_author" id="comment_author" value="" tabindex="1" required>
+        <form action="/data" method="POST" id="commentform">
+            <label for="userName" class="required">Your name</label>
+            <input type="text" name="userName" id="userName" value="" tabindex="1" required>
 
-            <label for="comment" class="required">Your message</label>
-            <textarea type="text" name="comment" id="comment" rows="10" tabindex="4"  required="required"></textarea>
+            <label for="userComment" class="required">Your message</label>
+            <textarea type="text" name="userComment" id="userComment" rows="10" tabindex="4"  required="required"></textarea>
 
             <input name="submit" type="submit" value="Submit comment" />
 

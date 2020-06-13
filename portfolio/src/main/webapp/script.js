@@ -50,14 +50,16 @@ var slideshowTimer = setInterval(next, 4000);
 
 
 function getComments() {
-  fetch('/data').then(response => response.json()).then((json) => {
+  fetch('/data').then(response => response.json()).then((post) => {
     
     const commentsListElement = document.getElementById('comments-container');
-    json.comments.forEach((line) => {
-      commentsListElement.appendChild(createListElement(line));
-    });
-  });
+    commentsListElement.innerHTML = '';
+    post.forEach((post) => {
+        commentsListElement.appendChild(
+            createListElement(post.userName + ': ' + post.userComment));
 
+  });
+  });
   
 }
 
