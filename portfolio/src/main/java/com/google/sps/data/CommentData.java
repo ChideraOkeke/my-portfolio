@@ -32,13 +32,5 @@ public class CommentData {
         this.userName = userName;
         this.userComment = userComment;
     }
-  // List of comments
-  /**
-  private final ArrayList<String> comments = new ArrayList<String>();
- 
-   public void logComment(String userName, String userComment) {
-        comments.add(userName + ": " + userComment);
-  }
-  */
-
+  
 }
