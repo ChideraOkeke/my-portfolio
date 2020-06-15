@@ -27,6 +27,7 @@ var filenames = ["/Images/myimage1.JPG",
 
 var currentImage = 0;	
 
+
 function update(){
 	var filename = filenames[currentImage];
 	document.getElementById("myImage").src = filename;
@@ -69,7 +70,4 @@ function createListElement(text) {
   liElement.innerText = text;
   return liElement;
 }
-
-
-
 
