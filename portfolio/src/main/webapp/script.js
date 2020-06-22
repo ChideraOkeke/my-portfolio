@@ -58,9 +58,35 @@ function getComments() {
         commentsListElement.appendChild(
             createListElement(post.userName + ': ' + post.userComment));
         });
-  });
+    });
   
 }
+
+
+
+function getTranslation() {
+
+    //const text = document.getElementById('userComment');
+    const languageCode = document.getElementById('languageCode').value;
+    const resultContainer = document.getElementById('comments-container');
+    resultContainer.innerText = 'Loading...';
+
+    const params = new URLSearchParams();
+    params.append('lang', languageCode);
+
+    fetch('/data', {
+        method: 'POST',
+        body: params
+    }).then(response => response.json())
+    .then((translatedMessage) => {
+      translatedMessage.forEach((post) => {
+        commentsListElement.appendChild(
+            createListElement(post.userName + ': ' + post.userComment));
+        });
+    });
+    
+}
+
 
 /** Creates an <li> element containing text. */
 

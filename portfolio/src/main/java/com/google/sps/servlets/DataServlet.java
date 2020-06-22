@@ -24,6 +24,9 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.IOException;
@@ -38,20 +41,27 @@ public class DataServlet extends HttpServlet {
     
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException { 
+      
       Query query = new Query("CommentData").addSort("timestamp", SortDirection.DESCENDING);
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       PreparedQuery results = datastore.prepare(query); 
-
+      
+      
       List<CommentData> commentlog = new ArrayList<>();
       for (Entity entity : results.asIterable()) {
           long id = entity.getKey().getId();
           String userName = (String) entity.getProperty("userName");
-          String userComment = (String) entity.getProperty("userComment");
+          String Comment = (String) entity.getProperty("userComment");
           long timestamp = (long) entity.getProperty("timestamp");
+          String languageCode = request.getParameter("languageCode");
+
+          String userComment = translateComment(Comment, languageCode);
 
           CommentData task = new CommentData(id, timestamp, userName, userComment);
+
           commentlog.add(task);
         }
+
 
       // Convert the comments to JSON
       String json = convertToJsonUsingGson(commentlog);
@@ -75,18 +85,24 @@ public class DataServlet extends HttpServlet {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         datastore.put(commentEntity);
 
-        //commentlog.logComment(userName, userComment);
-
         // Redirect back to the HTML page.
         response.sendRedirect("/index.html");
     }
-
 
 
    private String convertToJsonUsingGson(List<CommentData> commentlog) {
        Gson gson = new Gson();
        String json = gson.toJson(commentlog);
     return json;
+    }
+
+    // Do the translation.
+    private String translateComment(String userComment, String languageCode) {
+        Translate translate = TranslateOptions.getDefaultInstance().getService();
+        Translation translation = 
+            translate.translate(userComment, Translate.TranslateOption.targetLanguage(languageCode));
+        String translatedText = translation.getTranslatedText();
+        return translatedText;
     }
 
 }
