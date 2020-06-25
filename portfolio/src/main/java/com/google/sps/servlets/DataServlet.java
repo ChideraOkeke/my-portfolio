@@ -34,41 +34,44 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-    
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException { 
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException { 
+        Query query = new Query("CommentData").addSort("timestamp", SortDirection.DESCENDING);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery results = datastore.prepare(query); 
       
-      Query query = new Query("CommentData").addSort("timestamp", SortDirection.DESCENDING);
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-      PreparedQuery results = datastore.prepare(query); 
+        String lang = request.getParameter("lang");
+        System.out.println(lang);
+
       
-      
-      List<CommentData> commentlog = new ArrayList<>();
-      for (Entity entity : results.asIterable()) {
-          long id = entity.getKey().getId();
-          String userName = (String) entity.getProperty("userName");
-          String Comment = (String) entity.getProperty("userComment");
-          long timestamp = (long) entity.getProperty("timestamp");
-          String languageCode = request.getParameter("languageCode");
+        List<CommentData> commentlog = new ArrayList<>();
+        for (Entity entity : results.asIterable()) {
+            long id = entity.getKey().getId();
+            String userName = (String) entity.getProperty("userName");
+            String userComment = (String) entity.getProperty("userComment");
+            long timestamp = (long) entity.getProperty("timestamp");
 
-          String userComment = translateComment(Comment, languageCode);
+            String Comment = translateComment(userComment, lang);
+            
+            System.out.println(Comment);
 
-          CommentData task = new CommentData(id, timestamp, userName, userComment);
+            CommentData task = new CommentData(id, timestamp, userName, Comment);
 
-          commentlog.add(task);
+            commentlog.add(task);
         }
 
 
-      // Convert the comments to JSON
-      String json = convertToJsonUsingGson(commentlog);
+        // Convert the comments to JSON
+        String json = convertToJsonUsingGson(commentlog);
 
-      // Send the JSON as the response
-      response.setContentType("application/json;");
-      response.getWriter().println(json);
+        // Send the JSON as the response
+        response.setContentType("application/json;");
+        response.getWriter().println(json);
     }
   
 
@@ -88,21 +91,31 @@ public class DataServlet extends HttpServlet {
         // Redirect back to the HTML page.
         response.sendRedirect("/index.html");
     }
-
-
-   private String convertToJsonUsingGson(List<CommentData> commentlog) {
-       Gson gson = new Gson();
-       String json = gson.toJson(commentlog);
-    return json;
+    
+    private String convertToJsonUsingGson(List<CommentData> commentlog) {
+        Gson gson = new Gson();
+        String json = gson.toJson(commentlog);
+        return json;
     }
 
-    // Do the translation.
-    private String translateComment(String userComment, String languageCode) {
-        Translate translate = TranslateOptions.getDefaultInstance().getService();
-        Translation translation = 
-            translate.translate(userComment, Translate.TranslateOption.targetLanguage(languageCode));
-        String translatedText = translation.getTranslatedText();
-        return translatedText;
+    // Do the translation. So that when the function is called the 
+    // translated text will display
+    private String translateComment(String Comment, String lang) {
+        if (lang == null){
+            Translate translate = TranslateOptions.getDefaultInstance().getService();
+            Translation translation = 
+                translate.translate(Comment, Translate.TranslateOption.targetLanguage("en"));
+            String translatedText = translation.getTranslatedText();
+            return translatedText;
+        }
+
+        else{
+            Translate translate = TranslateOptions.getDefaultInstance().getService();
+            Translation translation = 
+                translate.translate(Comment, Translate.TranslateOption.targetLanguage(lang));
+            String translatedText = translation.getTranslatedText();
+            return translatedText;
+        }
     }
 
 }

@@ -49,38 +49,38 @@ var slideshowTimer = setInterval(next, 4000);
 
 
 
-function getComments() {
-  fetch('/data').then(response => response.json()).then((post) => {
+// function getComments() {
+//   fetch('/data').then(response => response.json()).then((post) => {
     
-    const commentsListElement = document.getElementById('comments-container');
-    commentsListElement.innerHTML = '';
-    post.forEach((post) => {
-        commentsListElement.appendChild(
-            createListElement(post.userName + ': ' + post.userComment));
-        });
-    });
+//     const commentsListElement = document.getElementById('comments-container');
+//     commentsListElement.innerHTML = '';
+//     post.forEach((post) => {
+//         commentsListElement.appendChild(
+//             createListElement(post.userName + ': ' + post.userComment));
+//         });
+//     });
   
-}
+// }
 
 
 
 function getTranslation() {
-
-    //const text = document.getElementById('userComment');
-    const languageCode = document.getElementById('languageCode').value;
+    const lang = document.getElementById('language').value;
+    console.log(lang);
+    
     const resultContainer = document.getElementById('comments-container');
     resultContainer.innerText = 'Loading...';
 
     const params = new URLSearchParams();
-    params.append('lang', languageCode);
+    params.append('lang', lang);
 
-    fetch('/data', {
-        method: 'POST',
-        body: params
+    fetch('/data?' + params.toString(), {
+        method: 'GET'
     }).then(response => response.json())
     .then((translatedMessage) => {
-      translatedMessage.forEach((post) => {
-        commentsListElement.appendChild(
+        resultContainer.innerText = '';
+        translatedMessage.forEach((post) => {
+        resultContainer.appendChild(
             createListElement(post.userName + ': ' + post.userComment));
         });
     });
