@@ -50,18 +50,29 @@ var slideshowTimer = setInterval(next, 4000);
 
 
 
-function getComments() {
-  fetch('/data').then(response => response.json()).then((post) => {
+function getTranslation() {
+    const lang = document.getElementById('language').value;
+    console.log(lang);
     
-    const commentsListElement = document.getElementById('comments-container');
-    commentsListElement.innerHTML = '';
-    post.forEach((post) => {
-        commentsListElement.appendChild(
+    const resultContainer = document.getElementById('comments-container');
+    resultContainer.innerText = 'Loading...';
+
+    const params = new URLSearchParams();
+    params.append('lang', lang);
+
+    fetch('/data?' + params.toString(), {
+        method: 'GET'
+    }).then(response => response.json())
+    .then((translatedMessage) => {
+        resultContainer.innerText = '';
+        translatedMessage.forEach((post) => {
+        resultContainer.appendChild(
             createListElement(post.userName + ': ' + post.userComment));
         });
-  });
-  
+    });
+    
 }
+
 
 /** Creates an <li> element containing text. */
 
