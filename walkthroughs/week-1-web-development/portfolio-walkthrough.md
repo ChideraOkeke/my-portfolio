@@ -167,7 +167,7 @@ several files and directories:
     </walkthrough-editor-open-file>
     is Maven's configuration file.
 -   <walkthrough-editor-open-file
-        filePath="software-product-sprint/walkthroughs/week-1-web-development/examples/stanley/src/main/webapp/index.html">
+        filePath="software-product-sprint/walkthroughs/week-1-web-development/examples/stanley/">
       index.html
     </walkthrough-editor-open-file>
     uses HTML tags to create a homepage that links to other pages.
